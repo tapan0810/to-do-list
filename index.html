@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Advanced To-Do List</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <!-- Theme Toggle -->
+  <div class="theme-toggle" onclick="toggleTheme()">🌙</div>
+
+  <div class="container">
+    <div class="todo-app">
+      <h2>
+        To-Do List
+        <span id="task-count">0/0</span>
+      </h2>
+
+      <div class="row">
+        <input type="text" id="input-box" placeholder="Add a task..." />
+
+        <button onclick="addTask()">Add</button>
+      </div>
+      <!-- Priority Selector -->
+      <div class="priority-row">
+        <select id="priority">
+          <option value="medium">🟡 Medium</option>
+          <option value="high">🔴 High</option>
+          <option value="low">🟢 Low</option>
+        </select>
+      </div>
+
+
+      <ul id="list-container"></ul>
+
+      <!-- Clear All -->
+      <button class="clear-btn" onclick="clearAllTasks()">Clear All</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+  <!-- Toast Container -->
+<div id="toast-container"></div>
+
+</body>
+
+</html>

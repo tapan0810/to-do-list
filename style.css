@@ -1,0 +1,520 @@
+/* ======================================================
+   RESET & BASE
+====================================================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* ======================================================
+   THEME VARIABLES
+====================================================== */
+:root {
+  /* DARK (BLACKISH BLUE) */
+  --bg-dark: #020617;            /* midnight blue */
+  --bg-dark-2: #020b1e;
+  --card-dark: rgba(15, 23, 42, 0.75);
+
+  /* LIGHT */
+  --bg-light: #eef2f7;
+  --card-light: rgba(255, 255, 255, 0.9);
+
+  /* TEXT */
+  --text-dark: #f8fafc;
+  --text-light: #1f2937;
+  --muted: #94a3b8;
+
+  /* ACCENTS */
+  --accent: #ff5945;
+  --success: #22c55e;
+
+  /* SHADOWS */
+  --shadow-lg: 0 30px 60px rgba(0,0,0,0.55);
+  --shadow-sm: 0 12px 25px rgba(0,0,0,0.35);
+}
+
+/* ======================================================
+   BODY + BACKGROUND
+====================================================== */
+body {
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at 20% 20%, #1e3a8a, transparent 45%),
+    radial-gradient(circle at 80% 30%, #0f766e, transparent 45%),
+    radial-gradient(circle at 50% 80%, #0369a1, transparent 45%),
+    linear-gradient(180deg, var(--bg-dark), var(--bg-dark-2));
+  color: var(--text-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.5s ease, color 0.4s ease;
+}
+
+body.light {
+  background:
+    radial-gradient(circle at 20% 20%, #c7d2fe, transparent 40%),
+    radial-gradient(circle at 80% 30%, #bbf7d0, transparent 40%),
+    radial-gradient(circle at 50% 80%, #bae6fd, transparent 40%),
+    var(--bg-light);
+  color: var(--text-light);
+}
+
+/* ======================================================
+   THEME TOGGLE (REFINED & PREMIUM)
+====================================================== */
+.theme-toggle {
+  position: fixed;
+  top: 18px;
+  right: 18px;
+
+  width: 44px;
+  height: 44px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 18px;
+  cursor: pointer;
+
+  background: rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(12px);
+
+  border-radius: 50%;
+  box-shadow:
+    0 6px 16px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25);
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    background 0.25s ease;
+  z-index: 100;
+}
+
+/* Hover */
+.theme-toggle:hover {
+  transform: translateY(-1px) scale(1.05);
+  box-shadow:
+    0 10px 24px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+/* Active / Click */
+.theme-toggle:active {
+  transform: scale(0.95);
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.35);
+}
+
+/* Light mode tuning */
+body.light .theme-toggle {
+  background: rgba(255, 255, 255, 0.85);
+  box-shadow:
+    0 6px 16px rgba(0, 0, 0, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+.theme-toggle:hover {
+  animation: toggleFloat 1.6s ease-in-out infinite;
+}
+
+@keyframes toggleFloat {
+  0%, 100% { transform: translateY(-1px) scale(1.05); }
+  50% { transform: translateY(-3px) scale(1.08); }
+}
+
+/* ======================================================
+   CONTAINER & CARD (RESPONSIVE FIX)
+====================================================== */
+.container {
+  width: 100%;
+  max-width: 100%;
+  padding: 16px;
+}
+
+.todo-app {
+  width: 100%;
+  max-width: 520px;
+  margin: auto;
+
+  background: var(--card-dark);
+  backdrop-filter: blur(18px);
+
+  padding: 28px 22px 40px;
+  border-radius: 20px;
+
+  box-shadow: var(--shadow-lg);
+}
+
+
+/* ======================================================
+   HEADER
+====================================================== */
+.todo-app h2 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 22px;
+  margin-bottom: 25px;
+}
+
+#task-count {
+  margin-left: auto;
+  background: var(--accent);
+  color: #fff;
+  font-size: 12px;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-weight: 600;
+}
+
+/* ======================================================
+   INPUT ROW
+====================================================== */
+.row {
+  display: flex;
+  align-items: center;
+  background: rgba(255,255,255,0.7);
+  border-radius: 50px;
+  padding-left: 20px;
+  margin-bottom: 30px;
+  box-shadow: var(--shadow-sm);
+}
+
+body:not(.light) .row {
+  background: rgba(255,255,255,0.12);
+}
+
+input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  padding: 14px 10px;
+  font-size: 15px;
+  color: inherit;
+}
+
+.row:focus-within {
+  box-shadow: 0 0 0 4px rgba(255,89,69,0.25);
+}
+
+/* ======================================================
+   ADD BUTTON
+====================================================== */
+/* ======================================================
+   PRIMARY BUTTON (ADD)
+====================================================== */
+button {
+  border: none;
+  outline: none;
+  padding: 15px 40px;
+  background: linear-gradient(135deg, #ff5945, #ff3b2f);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: 36px;
+
+  /* 🔧 Reduced glow */
+  box-shadow: 0 6px 14px rgba(255,89,69,0.35);
+  transition: 
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    filter 0.2s ease;
+}
+
+button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 20px rgba(255,89,69,0.45);
+  filter: brightness(1.03);
+}
+
+button:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 10px rgba(255,89,69,0.3);
+}
+
+/* ======================================================
+   CLEAR ALL BUTTON (SUBTLE)
+====================================================== */
+.clear-btn {
+  margin-top: 18px;
+  width: 100%;
+  padding: 14px;
+  border-radius: 30px;
+  border: none;
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+
+  /* 🔧 Much softer shadow */
+  box-shadow: 0 5px 12px rgba(239,68,68,0.25);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.clear-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 18px rgba(239,68,68,0.35);
+}
+
+.clear-btn:active {
+  transform: scale(0.98);
+  box-shadow: 0 4px 10px rgba(239,68,68,0.25);
+}
+
+/* ======================================================
+   TASK LIST
+====================================================== */
+ul {
+  list-style: none;
+}
+
+ul li {
+  position: relative;
+  padding: 14px 52px 14px 52px;
+  font-size: 16px;
+  border-radius: 14px;
+  cursor: pointer;
+  animation: slideIn 0.35s ease;
+  transition: background 0.25s ease, transform 0.25s ease;
+}
+
+ul li:hover {
+  background: rgba(255,255,255,0.08);
+  transform: translateY(-2px);
+}
+
+/* CHECK ICON */
+ul li::before {
+  content: "";
+  position: absolute;
+  height: 28px;
+  width: 28px;
+  border-radius: 50%;
+  background-image: url(images/unchecked.png);
+  background-size: cover;
+  top: 12px;
+  left: 12px;
+}
+
+/* COMPLETED */
+ul li.checked {
+  text-decoration: line-through;
+  color: var(--muted);
+  background: rgba(34,197,94,0.15);
+}
+
+ul li.checked::before {
+  background-image: url(images/checked.png);
+}
+
+/* DELETE BUTTON (FIXED) */
+.delete-btn {
+  position: absolute;
+  right: 10px;
+  top: 8px;
+  width: 36px;
+  height: 36px;
+  font-size: 22px;
+  line-height: 36px;
+  text-align: center;
+  border-radius: 50%;
+  color: #ff6b6b;
+  transition: 0.25s;
+}
+
+.delete-btn:hover {
+  background: rgba(255,89,69,0.25);
+  transform: rotate(90deg) scale(1.15);
+}
+
+/* ======================================================
+   EMPTY STATE
+====================================================== */
+#list-container:empty::after {
+  content: "✨ No tasks yet. Add something!";
+  display: block;
+  text-align: center;
+  margin-top: 40px;
+  color: var(--muted);
+  font-size: 14px;
+  animation: floatText 2s infinite ease-in-out;
+}
+
+/* ======================================================
+   ANIMATIONS
+====================================================== */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(25px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateX(-15px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes floatText {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+/* ======================================================
+   RESPONSIVE
+====================================================== */
+@media (max-width: 480px) {
+  .todo-app {
+    padding: 30px 22px 50px;
+  }
+
+  button {
+    padding: 14px 36px;
+    font-size: 15px;
+  }
+}
+/* ======================================================
+   PRIORITY DROPDOWN (REFINED)
+====================================================== */
+.priority-row {
+  margin-bottom: 18px;
+}
+
+.priority-row select {
+  width: 100%;
+  height: 44px;                 /* 🔧 controlled height */
+  padding: 0 16px;
+  border-radius: 28px;
+  border: none;
+  outline: none;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+
+  /* Dark mode base */
+  background: rgba(255,255,255,0.18);
+  color: #f8fafc;
+
+  box-shadow: var(--shadow-sm);
+  appearance: none;
+}
+
+/* Light mode */
+body.light .priority-row select {
+  background: #ffffff;
+  color: #1f2937;
+}
+
+/* Focus */
+.priority-row select:focus {
+  box-shadow: 0 0 0 3px rgba(255,89,69,0.3);
+}
+/* ======================================================
+   DROPDOWN OPTIONS (IMPORTANT FIX)
+====================================================== */
+.priority-row option {
+  color: #1f2937;          /* 🔧 visible text on white */
+  background: #ffffff;
+  font-size: 14px;
+  padding: 10px;
+}
+
+
+/* ======================================================
+   PRIORITY TAGS (SIZE + ALIGNMENT FIX)
+====================================================== */
+.priority {
+  position: absolute;
+  right: 52px;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 3px 10px;
+  font-size: 11px;
+  line-height: 1;
+  border-radius: 12px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.priority.high {
+  background: rgba(239,68,68,0.25);
+  color: #ef4444;
+}
+
+.priority.medium {
+  background: rgba(234,179,8,0.3);
+  color: #eab308;
+}
+
+.priority.low {
+  background: rgba(34,197,94,0.3);
+  color: #22c55e;
+}
+
+
+/* ======================================================
+   DRAG & DROP
+====================================================== */
+li.dragging {
+  opacity: 0.4;
+  transform: scale(0.95);
+}
+
+li.drag-over {
+  outline: 2px dashed var(--accent);
+}
+
+/* ======================================================
+   TOAST NOTIFICATIONS
+====================================================== */
+#toast-container {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 999;
+}
+
+.toast {
+  padding: 14px 18px;
+  border-radius: 14px;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 500;
+  min-width: 220px;
+  animation: toastIn 0.4s ease forwards;
+  box-shadow: var(--shadow-lg);
+}
+
+.toast.success { background: #22c55e; }
+.toast.error { background: #ef4444; }
+.toast.info { background: #3b82f6; }
+
+@keyframes toastIn {
+  from { opacity: 0; transform: translateY(20px) scale(0.9); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+/* Optional visual polish */
+.priority-row select option[value="high"] {
+  color: #ef4444;
+}
+
+.priority-row select option[value="medium"] {
+  color: #eab308;
+}
+
+.priority-row select option[value="low"] {
+  color: #22c55e;
+}
